@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CompareFilesServiceImpl implements CompareFilesService {
@@ -37,9 +39,12 @@ public class CompareFilesServiceImpl implements CompareFilesService {
         //Sorting
         linesOfFile1.sort(String::compareToIgnoreCase);
 
+        //Remove duplicates
+        Set<String> linesWithoutDuplicates = new LinkedHashSet<>(linesOfFile1);
+
         //Create output file
         FileWriter writer = new FileWriter(pathToFile3);
-        for(String str: linesOfFile1) {
+        for(String str: linesWithoutDuplicates) {
             writer.write(str);
             writer.write(System.getProperty( "line.separator" ));
         }
